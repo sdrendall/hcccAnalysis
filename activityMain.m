@@ -1,26 +1,43 @@
 function activityMain
 % Main Script for hccc behavior analysis 
 
-% Load Images
-[paths, filenames] = getImagePath;
+dirPaths = {'~/Documents/grayLab/practice/p1',...
+            '~/Documents/grayLab/practice/p2'};
+condName = {'pract1', 'pract2'};
 
+% Initialize some things
+for iPath = 1:length(dirPaths)
+    % Store Condition name and dirPath
+    Condition(iPath).name = condName{iPath};
+    Condition(iPath).dirPath = dirPaths{iPath};
+    
+    % Get Image Paths
+    [Condition(iPath).imagepaths, Condition(iPath).imageFilenames] = getImagePath(dirPaths{iPath});
+    
+    % Designate ROIs
+    Condition(iPath).roi = defineROI(Condition(iPath).imagepaths{1});
+end
+
+for i = 1:length(Condition)
 % Find Centroids
-centroids = findMouse(paths);
+Condition(i).centroids = findMouse(Condition(i).imagepaths);
 
 % Time Spent in ROI
- % Determine ROI
-[roi, name] = defineROI(paths{1});
+[Condition(i).location.inROI, Condition(i).location.notInROI] = catagorizeCentroids(Condition(i).centroids, Condition(i).roi);
 
- % Seperate centroids
-[inROI, notInROI] = catagorizeCentroids(centroids, roi);
 
 % Detect Activity
  % Calculate Centroid Displacement
-displacement = calculateCentroidDisplacement(centroids);
+Condition(i).displacement.raw = calculateCentroidDisplacement(Condition(i).centroids);
  % Lowpass filter?
-%displacement = filter(displacement, [1/3, 1/3, 1/3];
- 
-% Display Results
+Condition(i).displacement.lp80 = smoothVector(Condition(i).displacement.raw, 80);
+ % Bin
+Condition(i).displacement.bin27 = binVector(Condition(i).displacement.raw, 3, 'mean'); 
+end
 
-figure, bar([inROI, notInROI])
-figure, plot(displacement)
+% Save Results
+[savefile, savepath] = uiputfile;
+save([savepath, savefile], 'Condition');
+
+%figure, bar([length(inROI), length(notInROI)])
+%figure, plot(displacement)

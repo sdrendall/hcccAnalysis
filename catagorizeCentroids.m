@@ -9,7 +9,7 @@ inROI = [];
 notInROI = [];
 
 for i = 1:length(centroids)
-    if [centroids(i) >= roi.topLeft, centroids(i) <= roi.bottomRight]
+    if [centroids(i,:) >= roi.topLeft, centroids(i,:) <= roi.bottomRight]
         inROI = [inROI, i];
     else
         notInROI = [notInROI, i];

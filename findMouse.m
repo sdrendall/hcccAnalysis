@@ -63,7 +63,7 @@ parfor i = 1:length(paths)
     end
         
     % Save Centroid
-    mouseCentroid(i,:) = props(winner).Centroid;
+    mouseCentroid(i,:) = props(winner).Centroid * 10;
     
 end
 
@@ -71,5 +71,5 @@ end
 
 % Return Centroids
 
-% Close parallel pool
-delete(gcp)
+% Close parallel pool - no need
+% delete(gcp)
