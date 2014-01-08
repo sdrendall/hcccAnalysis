@@ -63,7 +63,7 @@ parfor i = 1:length(paths)
     end
         
     % Save Centroid
-    mouseCentroid(i,:) = props(winner).Centroid * 10;
+    mouseCentroid(i,:) = props(winner(1)).Centroid .* 10;
     
 end
 
