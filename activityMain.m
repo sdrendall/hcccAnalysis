@@ -1,16 +1,11 @@
 function activityMain
 % Main Script for hccc behavior analysis 
 
-basePath = '~/Pictures/hcccTimelapsesForJin/comfort1/';
-dirPaths = {[basePath,'mouse1/day1'],...
-            [basePath,'mouse1/day2'],...
-            [basePath,'mouse2/day1'],...
-            [basePath,'mouse2/day2'],...
-            [basePath,'mouse3/day1'],...
-            [basePath,'mouse3/day2']};
-condName = {'mouse 1 day 1', 'mouse 1 day 2', 'mouse 2 day 1', 'mouse 2 day 2', 'mouse 3 day 1', 'mouse 3 day 2'};
+startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
-% Initialize some things
+% Get first level of directories without directories begining with '.'
+Conditions = loadConditions(startPath);
+                 
 for iPath = 1:length(dirPaths)
     % Store Condition name and dirPath
     Conditions(iPath).name = condName{iPath};
@@ -46,3 +41,10 @@ save([savepath, savefile], 'Conditions');
 
 %figure, bar([length(inROI), length(notInROI)])
 %figure, plot(displacement)
+
+
+
+
+
+
+
