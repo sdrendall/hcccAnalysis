@@ -1,7 +1,7 @@
-function Conditions = activityMain
+%function Conditions = activityMain
 % Main Script for hccc behavior analysis 
 
-startPath = uigetdir; %'/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
+startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/'; %'/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
 % Load all images, for all mice, in each condition as well as a plethora of
 % info about each condition, mouse ect. (see documentation)
@@ -33,11 +33,6 @@ end
 % Get data
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
-        % Calculate displacement between consecutive centroids
-        % calculateDisplacement will create activity logs for the whole
-        % mouse as well as for each block.  Passing around the whole
-        % structure for convenience.
-        Conditions(iCond).mouse(iMouse) = handleCentroidDisplacement(Conditions(iCond).mouse(iMouse));
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
@@ -48,36 +43,46 @@ for iCond = 1:length(Conditions)
                 Conditions(iCond).mouse(iMouse).tlBlock(iBk).inROI = checkCentroidPosition(Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids, ...
                     Conditions(iCond).mouse(iMouse).roi(Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd));
             end
-        end        
-        % Calculate 
+        end
+        
+        % Calculate displacement between consecutive centroids for each
+        % mouse
+        [Conditions(iCond).mouse(iMouse).allCentroids, Conditions(iCond).mouse(iMouse).allDisplacement, Conditions(iCond).mouse(iMouse).blockToMasterInd]...
+            = handleCentroidDisplacement(Conditions(iCond).mouse(iMouse));
+        
+        % Unpack displacement into each block - just in case
+        for iBk = 1:(Conditions(iCond).mouse(iMouse).nBlocks - 1)
+            Conditions(iCond).mouse(iMouse).tlBlock(iBk).displacement = Conditions(iCond).mouse(iMouse).allDisplacement(...
+                Conditions(iCond).mouse(iMouse).blockToMasterInd(iBk):Conditions(iCond).mouse(iMouse).blockToMasterInd(iBk + 1));
+        end
+        Conditions(iCond).mouse(iMouse).tlBlock(iBk).displacement = Conditions(iCond).mouse(iMouse).allDisplacement(...
+            Conditions(iCond).mouse(iMouse).blockToMasterInd(iBk + 1):Conditions(iCond).mouse(iMouse).blockToMasterInd(end));
     end
 end
 return
 
 
-for i = 1:length(Conditions)
-
-% Time Spent in ROI
-[Conditions(i).location.inROI, Conditions(i).location.notInROI] = catagorizeCentroids(Conditions(i).centroids, Conditions(i).roi);
-
-
-% Detect Activity
- % Calculate Centroid Displacement
-Conditions(i).displacement.raw = calculateCentroidDisplacement(Conditions(i).centroids);
- % Lowpass filter?
-Conditions(i).displacement.lp80 = smoothVector(Conditions(i).displacement.raw, 80);
- % Bin
-Conditions(i).displacement.bin27 = binVector(Conditions(i).displacement.raw, 27, 'mean'); 
-end
-
-% Save Results
-[savefile, savepath] = uiputfile;
-save([savepath, savefile], 'Conditions');
-
-%figure, bar([length(inROI), length(notInROI)])
-%figure, plot(displacement)
-
-
+% % Time Spent in ROI
+% [Conditions(i).location.inROI, Conditions(i).location.notInROI] = catagorizeCentroids(Conditions(i).centroids, Conditions(i).roi);
+% 
+% 
+% % Detect Activity
+%  % Calculate Centroid Displacement
+% Conditions(i).displacement.raw = calculateCentroidDisplacement(Conditions(i).centroids);
+%  % Lowpass filter?
+% Conditions(i).displacement.lp80 = smoothVector(Conditions(i).displacement.raw, 80);
+%  % Bin
+% Conditions(i).displacement.bin27 = binVector(Conditions(i).displacement.raw, 27, 'mean'); 
+% 
+% 
+% % Save Results
+% [savefile, savepath] = uiputfile;
+% save([savepath, savefile], 'Conditions');
+% 
+% %figure, bar([length(inROI), length(notInROI)])
+% %figure, plot(displacement)
+% 
+% 
 
 
 
