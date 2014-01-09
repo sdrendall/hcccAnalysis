@@ -5,6 +5,7 @@ function [roiSwitchInd, nROIs] = findDistinctROIs(mouse)
 % Input is a mouse structure
 % Output is a double
 
+
 % First ROI is always distinct
 roiSwitchInd = 1;
 

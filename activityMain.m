@@ -10,18 +10,25 @@ Conditions = loadConditions(startPath);
 % First get ROIs, for time management's sake
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
-        % Find indexes for blocks where day, day or night, night is repeated
-        % Get number of distinct ROI switches
-        [Conditions(iCond).mouse(iMouse).roiSwitchInd, Conditions(iCond).mouse(iMouse).nROIs] = findDistinctROIs(Conditions(iCond).mouse(iMouse));
-        
         % Get ROIs for Conditions requiring them for evaluation
         if ~Conditions(iCond).activityOnly
+            % Find indexes for  consecutive 'day' or 'night' blocks
+            % Get number of distinct ROI switches
+            [Conditions(iCond).mouse(iMouse).roiSwitchInd, Conditions(iCond).mouse(iMouse).nROIs] = findDistinctROIs(Conditions(iCond).mouse(iMouse));
+                        
             for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
                 Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
+            end
+            
+            % Assign each block the highest valued switch index less than
+            % or equal to the block's index
+            for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
+                Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd = max(Conditions(iCond).mouse(iMouse).roiSwitchInd([Conditions(iCond).mouse(iMouse).roiSwitchInd] <= iBk));
             end
         end
     end
 end
+
 
 % Get data
 for iCond = 1:length(Conditions)
@@ -29,14 +36,21 @@ for iCond = 1:length(Conditions)
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
+            
+            % Calculate time spent in and out of the ROI for appropriate
+            % animals
+            if ~Conditions(iCond).activityOnly
+                Conditions(iCond).mouse(iMouse).tlBlock(iBk).inROI = checkCentroidPosition(Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids, ...
+                    Conditions(iCond).mouse(iMouse).roi(Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd));
+            end
+            
+            % Calculate displacement between consecutive centroids
         end
         
-         % Calculate time spent in and out of the ROI for each animal
-        if ~Conditions(iCond).activityOnly
-            for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
-                Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
-            end
-        end
+          
+        
+         
+        % Calculate 
     end
 end
 pause
