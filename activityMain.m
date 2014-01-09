@@ -5,17 +5,20 @@ startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
 % Load all images, for all mice, in each condition
 Conditions = loadConditions(startPath);
+
+% Better way to do the next part:
+% Find number of ROI switches (based on day, day or night night blocks)
+% Find ROI for first image of first block of each ROI... need to
+% sleep.....
                  
-for iPath = 1:length(dirPaths)
-    % Store Condition name and dirPath
-    Conditions(iPath).name = condName{iPath};
-    Conditions(iPath).dirPath = dirPaths{iPath};
-    
-    % Get Image Paths
-    [Conditions(iPath).imagepaths, Conditions(iPath).imageFilenames] = getImagePath();
-    
-    % Designate ROIs
-    Conditions(iPath).roi = defineROI(Conditions(iPath).imagepaths{1});
+for iCond = 1:length(Conditions)
+    for iMouse = 1:Conditions(iCond).nMice
+        for iBlock = 1:Conditions(iCond).mouse(iMouse).nBlocks
+            % Designate ROI for each block, clunky, but that's how I'm
+            % gonna do it for now...
+            Conditions(iCond).mouse(iMouse).tlBlock(iBlock).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(iBlock).imagePaths{1});
+        end
+    end
 end
 
 for i = 1:length(Conditions)

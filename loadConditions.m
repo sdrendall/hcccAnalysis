@@ -14,9 +14,10 @@ function Conditions = loadConditions(startPath)
 %
 %   Each Condition.mouse contains:
 %       basePath - path to self
-%       tlBlocks - Structure: each 'block', representing a set of consecutive images
+%       tlBlock - Structure: each 'block', representing a set of consecutive images
 %           partitioned based on time of day or animal transfer/cage
 %           modification
+%       nBlocks
 %
 %   Each Condition.mouse.tlBlock contains:
 %       basePath: path to self
@@ -55,5 +56,6 @@ for iCond = 1:length(Conditions)
         Conditions(iCond).mouse(iMouse).basePath = Conditions(iCond).mouseDirs{iMouse};
         % disp(Conditions(iCond).mouse(iMouse).basePath), pause
         Conditions(iCond).mouse(iMouse).tlBlock = loadTimelapseBlocks(Conditions(iCond).mouse(iMouse).basePath);
+        Conditions(iCond).mouse(iMouse).nBlocks = length(Conditions(iCond).mouse(iMouse).tlBlock);
     end
 end
