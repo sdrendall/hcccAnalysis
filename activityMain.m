@@ -1,7 +1,7 @@
-function activityMain
+function Conditions = activityMain
 % Main Script for hccc behavior analysis 
 
-startPath = '/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
+startPath = uigetdir; %'/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
 % Load all images, for all mice, in each condition as well as a plethora of
 % info about each condition, mouse ect. (see documentation)
