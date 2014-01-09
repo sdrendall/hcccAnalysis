@@ -17,7 +17,7 @@ for iCond = 1:length(Conditions)
             [Conditions(iCond).mouse(iMouse).roiSwitchInd, Conditions(iCond).mouse(iMouse).nROIs] = findDistinctROIs(Conditions(iCond).mouse(iMouse));
                         
             for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
-                Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
+                Conditions(iCond).mouse(iMouse).roi(iROI) = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
             end
             
             % Assign each block the highest valued switch index less than
@@ -37,7 +37,7 @@ for iCond = 1:length(Conditions)
         % calculateDisplacement will create activity logs for the whole
         % mouse as well as for each block.  Passing around the whole
         % structure for convenience.
-        Conditions(iCond).mouse(iMouse) = handleCentroidDisplacement(Conditions(iCond).mouse(iMouse);
+        Conditions(iCond).mouse(iMouse) = handleCentroidDisplacement(Conditions(iCond).mouse(iMouse));
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
