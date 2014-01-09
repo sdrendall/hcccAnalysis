@@ -3,7 +3,7 @@ function activityMain
 
 startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
-% Get first level of directories without directories begining with '.'
+% Load all images, for all mice, in each condition
 Conditions = loadConditions(startPath);
                  
 for iPath = 1:length(dirPaths)

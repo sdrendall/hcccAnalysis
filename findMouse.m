@@ -1,4 +1,6 @@
 function mouseCentroid = findMouse(paths)
+% mouseCentroid = findMouse(paths)
+%
 % Attepts to locate a black mouse in an RBG image
 % Uses the PARALLEL COMPUTING TOOLBOX
 % Someday if I get smarter this might use a learning algorithm, that would
@@ -28,6 +30,8 @@ parfor i = 1:length(paths)
     
     % Filter by Size
     props = regionprops(im, 'Area', 'MajorAxisLength', 'MinorAxisLength', 'Centroid');
+    
+    % Initialize objects
     candidateLabels = [];
     winner = [];
     area = zeros(length(props), 1);
