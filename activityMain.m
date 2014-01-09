@@ -7,7 +7,7 @@ startPath = '/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churc
 % info about each condition, mouse ect. (see documentation)
 Conditions = loadConditions(startPath);
 
-
+% First get ROIs, for time management's sake
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
         % Find indexes for blocks where day, day or night, night is repeated
@@ -20,7 +20,12 @@ for iCond = 1:length(Conditions)
                 Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
             end
         end
-        
+    end
+end
+
+% Get data
+for iCond = 1:length(Conditions)
+    for iMouse = 1:Conditions(iCond).nMice
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
