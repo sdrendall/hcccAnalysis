@@ -12,7 +12,10 @@ for iBk = 1:mouse.nBlocks
     allCentroids = [allCentroids; mouse.tlBlock(iBk).centroids];
 end
 
-allDisplacement = calculateCentroidDisplacement(allCentroids);
+allDisplacement.raw = calculateCentroidDisplacement(allCentroids);
+allDisplacement.lp80 = smoothVector(allDisplacement.raw, 80);
+allDisplacement.bin27 = binVector(allDisplacement.raw, 27, 'mean');
+
 
 % Store diplacement values into tlBlocks
 %for iBk = 1:(mouse.nBlocks - 1)
