@@ -33,6 +33,11 @@ end
 % Get data
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
+        % Calculate displacement between consecutive centroids
+        % calculateDisplacement will create activity logs for the whole
+        % mouse as well as for each block.  Passing around the whole
+        % structure for convenience.
+        Conditions(iCond).mouse(iMouse) = calculateDisplacement(Conditions(iCond).mouse(iMouse);
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
@@ -43,8 +48,6 @@ for iCond = 1:length(Conditions)
                 Conditions(iCond).mouse(iMouse).tlBlock(iBk).inROI = checkCentroidPosition(Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids, ...
                     Conditions(iCond).mouse(iMouse).roi(Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd));
             end
-            
-            % Calculate displacement between consecutive centroids
         end        
         % Calculate 
     end
