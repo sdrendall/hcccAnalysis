@@ -28,11 +28,12 @@ function Conditions = loadConditions(startPath)
 %
 % Should I parallelize?
 
-startPath = checkPathSlash(startPath);
 
 if ~exist('startPath', 'var')
     startPath = uigetdir('~', 'Specify Base Directory (contains Conditions)');
 end
+
+startPath = checkPathSlash(startPath);
 
 % initializes Conditions from dir(startPath) with filtered output
 Conditions = dirNoDot(startPath);

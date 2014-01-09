@@ -3,20 +3,19 @@ function activityMain
 
 startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
-% Load all images, for all mice, in each condition
+% Load all images, for all mice, in each condition as well as a plethora of
+% info about each condition, mouse ect. (see documentation)
 Conditions = loadConditions(startPath);
 
-% Better way to do the next part:
-% Find number of ROI switches (based on day, day or night night blocks)
-% Find ROI for first image of first block of each ROI... need to
-% sleep.....
-                 
+
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
-        for iBlock = 1:Conditions(iCond).mouse(iMouse).nBlocks
-            % Designate ROI for each block, clunky, but that's how I'm
-            % gonna do it for now...
-            Conditions(iCond).mouse(iMouse).tlBlock(iBlock).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(iBlock).imagePaths{1});
+        % Find indexes for blocks where day, day or night, night is repeated
+        % Get number of distinct ROI switches
+        [Conditions(iCond).mouse(iMouse).roiSwitchInd, Conditions(iCond).mouse(iMouse).nROIs] = findDistinctROIs(Conditions(iCond).mouse(iMouse));
+        for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
+            % Get ROIs
+            Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths(1));
         end
     end
 end
