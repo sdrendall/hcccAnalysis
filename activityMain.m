@@ -45,15 +45,11 @@ for iCond = 1:length(Conditions)
             end
             
             % Calculate displacement between consecutive centroids
-        end
-        
-          
-        
-         
+        end        
         % Calculate 
     end
 end
-pause
+return
 
 
 for i = 1:length(Conditions)
