@@ -1,7 +1,7 @@
 function activityMain
 % Main Script for hccc behavior analysis 
 
-startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
+startPath = '/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
 
 % Load all images, for all mice, in each condition as well as a plethora of
 % info about each condition, mouse ect. (see documentation)
@@ -13,16 +13,31 @@ for iCond = 1:length(Conditions)
         % Find indexes for blocks where day, day or night, night is repeated
         % Get number of distinct ROI switches
         [Conditions(iCond).mouse(iMouse).roiSwitchInd, Conditions(iCond).mouse(iMouse).nROIs] = findDistinctROIs(Conditions(iCond).mouse(iMouse));
-        for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
-            % Get ROIs
-            Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths(1));
+        
+        % Get ROIs for Conditions requiring them for evaluation
+        if ~Conditions(iCond).activityOnly
+            for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
+                Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
+            end
+        end
+        
+        for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
+            % findMouse for each block
+            Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
+        end
+        
+         % Calculate time spent in and out of the ROI for each animal
+        if ~Conditions(iCond).activityOnly
+            for iROI = 1:Conditions(iCond).mouse(iMouse).nROIs
+                Conditions(iCond).mouse(iMouse).roi = defineROI(Conditions(iCond).mouse(iMouse).tlBlock(Conditions(iCond).mouse(iMouse).roiSwitchInd(iROI)).imagePaths{1});
+            end
         end
     end
 end
+pause
+
 
 for i = 1:length(Conditions)
-% Find Centroids
-Conditions(i).centroids = findMouse(Conditions(i).imagepaths);
 
 % Time Spent in ROI
 [Conditions(i).location.inROI, Conditions(i).location.notInROI] = catagorizeCentroids(Conditions(i).centroids, Conditions(i).roi);
