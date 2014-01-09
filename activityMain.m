@@ -23,7 +23,8 @@ for iCond = 1:length(Conditions)
             % Assign each block the highest valued switch index less than
             % or equal to the block's index
             for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
-                Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd = max(Conditions(iCond).mouse(iMouse).roiSwitchInd([Conditions(iCond).mouse(iMouse).roiSwitchInd] <= iBk));
+                Conditions(iCond).mouse(iMouse).tlBlock(iBk).myROIInd = find(Conditions(iCond).mouse(iMouse).roiSwitchInd == ...
+                    max(Conditions(iCond).mouse(iMouse).roiSwitchInd([Conditions(iCond).mouse(iMouse).roiSwitchInd] <= iBk)), 1, 'first');
             end
         end
     end
