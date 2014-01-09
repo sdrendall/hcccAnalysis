@@ -37,7 +37,7 @@ for iCond = 1:length(Conditions)
         % calculateDisplacement will create activity logs for the whole
         % mouse as well as for each block.  Passing around the whole
         % structure for convenience.
-        Conditions(iCond).mouse(iMouse) = calculateDisplacement(Conditions(iCond).mouse(iMouse);
+        Conditions(iCond).mouse(iMouse) = handleCentroidDisplacement(Conditions(iCond).mouse(iMouse);
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
             % findMouse for each block
             Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
