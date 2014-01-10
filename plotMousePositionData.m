@@ -39,7 +39,7 @@ for iMouse = 1:nMice
     setXlabel(mice(iMouse).parentName)
 end
 
-subplotTitle('All Mice, Each point indicates a new platform position/room assignment')
+subplotTitle('All mice, each point indicates a new platform position/room assignment')
 
 % Plot all mice in one figure
 %figure
