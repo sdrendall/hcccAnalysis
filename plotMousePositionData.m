@@ -12,22 +12,7 @@ nMice = length(mice);
 
 % Plot each mouse seperately
 % Calculate subplot dimensions
-if nMice == 1
-    dims = [1, 1];
-elseif nMice == 2
-    dims = [1, 2];
-elseif nMice <= 6
-    dims = [2, 3];
-elseif nMice <= 8
-    dims = [2, 4];
-else
-    dims = [3, 4];
-    dimProd = 12;
-    while dimProd < nMice
-        dims = dims + [1 , 2];
-        dimProd = dims(1)*dims(2);
-    end
-end
+
 
 % Plot each mouse
 figure
