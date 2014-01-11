@@ -10,6 +10,14 @@ Conditions = Conditions(~[Conditions(:).activityOnly]);
 mice = extractMice(Conditions);
 nMice = length(mice);
 
+
+% Get the data
+for iMouse = 1:nMice
+    [mice(iMouse).rawPositionData, mice(iMouse).asPercentagePositionData] = getMousePositionData(mice(iMouse));
+    mice(iMouse).avgPositionData = mean(mice(iMouse).asPercentagePositionData, 1);
+end
+
+
 % Plot each mouse seperately
 % Calculate subplot dimensions
 dims = calculateSubplotDims(nMice);
@@ -18,26 +26,32 @@ dims = calculateSubplotDims(nMice);
 figure
 for iMouse = 1:nMice
     subplot(dims(1), dims(2), iMouse)
-    notBoxPlot(normalizeArray(getMousePositionData(mice(iMouse))) * 100, [], .2)
+    notBoxPlot(mice(iMouse).asPercentagePositionData * 100, [], .2)
     title(['Mouse No: ', num2str(iMouse), ' Condition: ', mice(iMouse).parentName])
     ylabel('% frames')
     setXLabel(mice(iMouse).parentName)
+    ylim([0 100])
 end
-
 subplotTitle('All mice, each point indicates a new platform position/room assignment')
 
-% Plot all mice in one figure
-%figure
-%for iMouse = 1:nMice
-    
+% Plot all mice in each condition in one summarizing figure
+summaryData = condensePositionByCondition(mice);
+dims = calculateSubplotDims(length(summaryData));
+figure
+for iCond = 1:length(summaryData)
+    subplot(dims(1), dims(2), iCond)
+    notBoxPlot(summaryData(iCond).allAvgPosData * 100, [], .1)
+    title(['Condition: ', summaryData(iCond).condName])
+    ylabel('% frames')
+    setXLabel(summaryData(iCond).condName)
+    ylim([0, 100])
+end
+subplotTitle('Percentage of frames mice in each condition spent in vs out of ROI.  Points represent individual mice')
 
 
 
 
-
-
-
-
+%---------------INTERNAL FUNCTIONS----------------------------------------
 
 function setXLabel(parName)
 switch lower(parName)
