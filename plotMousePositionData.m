@@ -12,7 +12,7 @@ nMice = length(mice);
 
 % Plot each mouse seperately
 % Calculate subplot dimensions
-
+dims = calculateSubplotDims(nMice);
 
 % Plot each mouse
 figure
@@ -21,7 +21,7 @@ for iMouse = 1:nMice
     notBoxPlot(normalizeArray(getMousePositionData(mice(iMouse))) * 100, [], 0)
     title(['Mouse No: ', num2str(iMouse), ' Condition: ', mice(iMouse).parentName])
     ylabel('% frames')
-    setXlabel(mice(iMouse).parentName)
+    setXLabel(mice(iMouse).parentName)
 end
 
 subplotTitle('All mice, each point indicates a new platform position/room assignment')
@@ -39,10 +39,10 @@ subplotTitle('All mice, each point indicates a new platform position/room assign
 
 
 
-function setXlabel(parName)
+function setXLabel(parName)
 switch lower(parName)
     case 'halffloor'
-        xlabel('1 = Time spent on platform, 2 = Time spent off of platform')
+        xlabel('1 = Frames on platform, 2 = Frames off platform')
     case 'room'
-        xlabel('1 = Time spent in room, 2 = Time spent out of room')
+        xlabel('1 = Frames in room, 2 = Frames out of room')
 end
