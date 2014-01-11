@@ -18,7 +18,7 @@ dims = calculateSubplotDims(nMice);
 figure
 for iMouse = 1:nMice
     subplot(dims(1), dims(2), iMouse)
-    notBoxPlot(normalizeArray(getMousePositionData(mice(iMouse))) * 100, [], 0)
+    notBoxPlot(normalizeArray(getMousePositionData(mice(iMouse))) * 100, [], .2)
     title(['Mouse No: ', num2str(iMouse), ' Condition: ', mice(iMouse).parentName])
     ylabel('% frames')
     setXLabel(mice(iMouse).parentName)
