@@ -5,8 +5,6 @@ function mice = extractMice(Conditions)
 % Returns a single structural array of mouse structure.
 % each mouse structure gains a parentName field which is the name of it's
 % parent structure
-%
-% Currently only works for activityOnly or ~activityOnly seperately
 
 for iCond = 1:length(Conditions)
     % Set parentName
@@ -17,6 +15,8 @@ for iCond = 1:length(Conditions)
     if iCond == 1
         mice = Conditions(iCond).mouse(:);
     else
+        % CLUNKY!! Replace w/ function
+        [mice, Conditions(iCond).mouse] = reconcileStructureFields(mice, Conditions(iCond).mouse);
         mice = [mice; Conditions(iCond).mouse(:)];
     end
 end
