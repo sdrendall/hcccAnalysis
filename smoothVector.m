@@ -3,4 +3,4 @@ function filtV = smoothVector(vector, window)
 %
 % Smooths a vector by adveraging across a window of the specified size
 
-filtV = conv(vector, ones(1, window)/window);
+filtV = conv(vector, ones(1, window)/window, 'same');

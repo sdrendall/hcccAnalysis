@@ -31,6 +31,8 @@ for i = 1:length(tlBlocksIn)
     tlBlocksIn(i).basePath = [path, tlBlocksIn(i).name];
     % Get image paths
     tlBlocksIn(i).imagePaths = getImagePath(tlBlocksIn(i).basePath);
+    % Get number of frames
+    tlBlocksIn(i).nFrames = length(tlBlocksIn(i).imagePaths);
 end
     
 tlBlocks = sortTlBlocks(tlBlocksIn);
