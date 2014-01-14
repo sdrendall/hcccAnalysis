@@ -33,6 +33,8 @@ title('Average total activity of mice in each condition')
 hold off
 
 
+
+
 % Activity during day vs night
 
 % Extract mice and blocks, who wants conditions....
@@ -52,6 +54,9 @@ ylabel('Average Pixels Moved per Frame')
 title('Average activity, day vs night')
 hold off
 
+
+
+
 % Plot for each condition
 fig3 = figure;
 for iCond = 1:nConds
@@ -69,8 +74,19 @@ for iCond = 1:nConds
 end
 subplotTitle('Average activity, day vs night, each condition')
 
-
-
+figure
+for iCond = 1:nConds
+    subplot(1,5,iCond)
+    for iMouse = 1:Conditions(iCond).nMice
+        [dayActivity, nightActivity] = getMouseActivity_dayVsNight(Conditions(iCond).mouse(iMouse));
+        plot([mean(dayActivity(~isnan(dayActivity))), mean(nightActivity(~isnan(nightActivity)))], 'o--', 'markerfacecolor', 'g')
+        hold on
+    end
+    hold off
+    title(Conditions(iCond).name)
+    xlim([0,3])
+    set(gca, 'XTickLabel', {'', 'day', 'night', ''})
+end
 
 
 
@@ -79,6 +95,12 @@ subplotTitle('Average activity, day vs night, each condition')
 % Activity v time plots
 
 % Each mouse, show start of day and night
+
+
+function [dayActivity, nightActivity] = getMouseActivity_dayVsNight(mouse)
+nightActivity = [mouse.tlBlock(strcmp({mouse.tlBlock(:).timeOfDay}, 'night')).avgDisplacement];
+dayActivity = [mouse.tlBlock(strcmp({mouse.tlBlock(:).timeOfDay}, 'day')).avgDisplacement];
+
 
 
 function nvd = getAllActivityData_DayVsNight(blocks)
