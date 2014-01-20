@@ -29,6 +29,7 @@ timelapseAnalysis_1-8-14:
 		mouse3: comfort (12-23) - HCCC5
 		mouse4: comfort (12-23) - HCCC6
 		
+	# In the 'room' conditions, HCCC7 has heat and HCCC9 does not
 	room:
 		mouse1: comfort (12-17):
 			(1-day, 2-night, 3-day): HCCC7

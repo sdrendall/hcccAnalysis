@@ -1,16 +1,18 @@
 function mouse = findTimeOfDayTransitions(mouse)
-% [day2night, night2day] = findTimeOfDayTransitions(mouse)
+% mouse = findTimeOfDayTransitions(mouse)
 %
-% [day2night, night2day]
+% adds fields to mouse structure: day2night, night2day
 %
 % Returns indicies corresponding to the images(paths, datapoints w/e) where
 % the time of day switches from day to night
 
-mouse = appendFields(mouse, {'day2night', 'night2day'});
+if ~(isfield(mouse, 'day2night') && isfield(mouse, 'night2day'))
+    mouse = appendFields(mouse, {'day2night', 'night2day'});
+end
 
 if length(mouse) > 1
     for iMouse = 1:length(mouse)
-        [mouse(iMouse)] = findTimeOfDayTransitions(mouse(iMouse));
+        mouse(iMouse) = findTimeOfDayTransitions(mouse(iMouse));
     end
 else
     if mouse.nBlocks <= 1

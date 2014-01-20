@@ -32,7 +32,7 @@ for iCond = 1:length(Conditions)
     subplotTitle(Conditions(iCond).name);
     
     % save plot
-    export_fig(fullfile('~/Pictures/hcccAnalysis/activityVsTimePlots/', [Conditions(iCond).name, '_activityVsTime_1hrSmoothed']))
+    %export_fig(fullfile('~/Pictures/hcccAnalysis/activityVsTimePlots/', [Conditions(iCond).name, '_activityVsTime_1hrSmoothed']))
 end
 
 
