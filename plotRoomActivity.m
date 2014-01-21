@@ -23,9 +23,12 @@ for iMouse = 1:length(mice)
     currAx = gca;
     % Plot data
     plot(mice(iMouse).allDisplacement.raw, 'k')
+    % Labels
+    xlabel('Elapsed Frames')
+    ylabel('Displaced Pixels')
     % Add lines for start of day and night
     addVLine(currAx, mice(iMouse).day2night, [0,0,1])
-    addVLine(currAx, mice(iMouse).night2day, [1, 111/255, 0])
+    addVLine(currAx, mice(iMouse).night2day, [1, 111/255, 45/225])
     % Add shading when mouse is in room
     addPatches(currAx, mice(iMouse).in2out, mice(iMouse).out2in)
 end
@@ -46,7 +49,7 @@ for iMouse = 1:length(mice)
     title('out of ROI')
 end
     
-function addPatches(ax, out2in, in2out)
+function addPatches(ax, in2out, out2in)
 % get ylim
 ylims = get(ax, 'ylim');
 xlims = get(ax, 'xlim');
@@ -70,6 +73,6 @@ end
 hold on
 for i = 1:length(x)
     ylims = get(ax, 'YLim');
-    plot([x(i),x(i)], ylims, 'color', clr)
+    plot([x(i),x(i)], ylims, 'color', clr, 'LineWidth', 2)
 end
 hold off

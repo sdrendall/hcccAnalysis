@@ -52,8 +52,8 @@ for iCond = 1:length(Conditions)
         stDev(iBk) = std(currBlocksData);
     end        
     errorbar(1:maxBlocks, avgData, stDev, 'k')
-    title(Conditions(iCond).name)
-    xlabel('Block Number')
+    title(['\bf ', Conditions(iCond).name])
+    %xlabel('Block Number')
     ylabel('Average Pixels Displaced')
     hold on
     
@@ -61,8 +61,8 @@ for iCond = 1:length(Conditions)
     longestMouse = find([Conditions(iCond).mouse(:).nBlocks] == maxBlocks, 1);
     nightBlocks = strcmp({Conditions(iCond).mouse(longestMouse).tlBlock(:).timeOfDay}, 'night');
     dayBlocks = strcmp({Conditions(iCond).mouse(longestMouse).tlBlock(:).timeOfDay}, 'day');
-    plot(find(nightBlocks), avgData(nightBlocks), 'o')
-    plot(find(dayBlocks), avgData(dayBlocks), 'yo')
+    plot(find(nightBlocks), avgData(nightBlocks), 'o', 'MarkerFaceColor', [0, 0, 1], 'MarkerEdgeColor', [0, 0, 1])
+    plot(find(dayBlocks), avgData(dayBlocks), 'o', 'MarkerFaceColor', [1, 111/255, 0], 'MarkerEdgeColor', [1, 111/255, 0])
     clear avgDisplacementVect avgData stDev
 end  
 
