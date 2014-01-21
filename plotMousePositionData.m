@@ -56,7 +56,9 @@ subplotTitle('Percentage of frames mice in each condition spent in vs out of ROI
 function setXLabel(parName)
 switch lower(parName)
     case 'halffloor'
-        xlabel('1 = Frames on platform, 2 = Frames off platform')
+        %xlabel('1 = Frames on platform, 2 = Frames off platform')
+        set(gca, 'XTickLabel', {'On Platform', 'Off Platform'})
     case 'room'
-        xlabel('1 = Frames in room, 2 = Frames out of room')
+        %xlabel('1 = Frames in room, 2 = Frames out of room')
+        set(gca, 'XTickLabel', {'In Room', 'Out of Room'})
 end

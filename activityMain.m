@@ -6,7 +6,7 @@
 %----------------------Load Data------------------------
 %-------------------------------------------------------
 
-startPath = '/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/'; %'/media/sam/external2_1TB/timelapseAnalysis_1-8-14/'; %'/Users/churchman/Desktop/SamR/timelapseAnalysis_1-8-14/';
+startPath = uigetdir;
 
 % Load all images, for all mice, in each condition as well as a plethora of
 % info about each condition, mouse ect. (see documentation)
