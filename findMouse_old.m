@@ -1,5 +1,7 @@
-function mouseCentroid = findMouse(paths)
-% mouseCentroid = findMouse(paths)
+function mouseCentroid = findMouse_old(paths)
+% mouseCentroid = findMouse_old(paths)
+%
+% DEPRECATED!!
 %
 % Attepts to locate a black mouse in an RBG image
 % Uses the PARALLEL COMPUTING TOOLBOX

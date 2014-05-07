@@ -41,8 +41,8 @@ end
 for iCond = 1:length(Conditions)
     for iMouse = 1:Conditions(iCond).nMice
         for iBk = 1:Conditions(iCond).mouse(iMouse).nBlocks
-            % findMouse for each block
-            Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
+            % findMouse_old for each block
+            Conditions(iCond).mouse(iMouse).tlBlock(iBk).centroids = findMouse_old(Conditions(iCond).mouse(iMouse).tlBlock(iBk).imagePaths);
             
             % Calculate time spent in and out of the ROI for appropriate
             % animals
